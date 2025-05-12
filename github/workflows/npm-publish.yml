@@ -1,0 +1,30 @@
+name: Publish Node.js Package to npm
+
+on:
+  push:
+    branches:
+      - main
+    # This triggers the workflow whenever changes are pushed to the `main` branch.
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+      # This checks out your code so it can be used in the workflow.
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'  # This specifies that we're using Node.js version 14.
+
+    - name: Install dependencies
+      run: npm install
+      # This installs the dependencies listed in your `package.json` file.
+
+    - name: Publish to npm
+      run: npm publish
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}  # Set your npm authentication token from GitHub Secrets.
