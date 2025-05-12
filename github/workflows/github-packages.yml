@@ -1,0 +1,29 @@
+name: Publish Node.js Package to GitHub Packages
+
+on:
+  push:
+    branches:
+      - main
+    # This triggers the workflow whenever changes are pushed to the `main` branch.
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'  # This specifies that we're using Node.js version 14.
+
+    - name: Install dependencies
+      run: npm install
+      # This installs the dependencies listed in your `package.json` file.
+
+    - name: Publish to GitHub Packages
+      run: npm publish --registry https://npm.pkg.github.com
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # GitHub token for authentication.
