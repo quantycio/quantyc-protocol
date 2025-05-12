@@ -1,0 +1,25 @@
+name: Jekyll Using Docker Image
+
+on:
+  push:
+    branches:
+      - main
+    # This triggers the workflow whenever changes are pushed to the `main` branch.
+
+jobs:
+  jekyll-build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+      # Checks out the code to use for the build.
+
+    - name: Set up Docker
+      run: |
+        docker --version  # This checks the installed Docker version.
+    
+    - name: Build Jekyll using Docker image
+      run: |
+        docker pull jekyll/jekyll:latest  # Pulls the latest Jekyll Docker image.
+        docker run --rm -v $(pwd):/srv/jekyll -p 4000:4000 jekyll/jekyll jekyll build  # Builds the Jekyll website.
